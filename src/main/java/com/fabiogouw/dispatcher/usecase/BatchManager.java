@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 /**
@@ -51,7 +52,11 @@ public class BatchManager {
                 // se algum pedido de dado deu erro, por qualquer motivo, colocamos de volta na fila
                 // para uma nova tentativa posterior
                 if(item.getExecutedWithError()) {
-                   repository.addRetry(item);
+                    try {
+                        repository.addRetry(item);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                return item;
             });
