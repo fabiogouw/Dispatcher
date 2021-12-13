@@ -10,6 +10,10 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 @EnableScheduling
+/**
+ * É o entry point da aplicação, responsável por chamar a funcionalidade
+ * de busca de lote de pedidos de dados de APIs externas.
+* */
 public class BatchManagerRunner {
 
     @Autowired

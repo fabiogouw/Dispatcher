@@ -48,9 +48,11 @@ public class BatchManager {
 
         for (ConsentDataRequest consentDataRequest: processedConsentDataRequests) {
             consentDataRequest.getItems().stream().map(item -> {
-               if(item.getExecutedWithError()) {
+                // se algum pedido de dado deu erro, por qualquer motivo, colocamos de volta na fila
+                // para uma nova tentativa posterior
+                if(item.getExecutedWithError()) {
                    repository.addRetry(item);
-               }
+                }
                return item;
             });
         }

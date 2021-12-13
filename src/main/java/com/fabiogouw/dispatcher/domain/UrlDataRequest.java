@@ -4,13 +4,16 @@ public class UrlDataRequest {
     private final String consent;
     private final String url;
     private String accessToken;
+    private int tryCount = 1;
     private boolean executedWithError = false;
     private String result;
 
     public UrlDataRequest(String consent,
-                          String url) {
+                          String url,
+                          int tryCount) {
         this.consent = consent;
         this.url = url;
+        this.tryCount = tryCount;
     }
 
     public String getConsent() {
@@ -38,4 +41,7 @@ public class UrlDataRequest {
         this.result = result;
     }
 
+    public void setNewRetry() {
+        this.tryCount += 1;
+    }
 }

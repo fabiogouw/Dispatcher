@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 public class WebClientApiRequester implements ApiRequester {
 
     private static final WebClient client = WebClient.create();
@@ -22,6 +24,7 @@ public class WebClientApiRequester implements ApiRequester {
                 .uri(accessTokenUrl)
                 .retrieve()
                 .bodyToMono(String.class)
+                .timeout(Duration.ofSeconds(10))
                 .map(response -> {
                     log.info("Access token for " + consentDataRequest.getConsent());
                     return response;
@@ -37,6 +40,7 @@ public class WebClientApiRequester implements ApiRequester {
                 .header("Authorization", "Bearer: " + item.getAccessToken())
                 .retrieve()
                 .bodyToMono(String.class)
+                .timeout(Duration.ofSeconds(10))
                 .map(response -> {
                     Metrics.counter("calls.completed").increment();
                     Metrics.counter("calls.made").increment();
